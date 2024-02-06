@@ -5,7 +5,6 @@ import com.local.orderhandler.exception.HandlerException;
 import com.local.orderhandler.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -39,16 +38,24 @@ public class ProductsService {
     }
     public List<Product> getAllProducts() throws HandlerException {
         List<Product> productList = (List<Product>) productRepository.findAll();
-        if(productList.isEmpty()) throw new HandlerException("Таблица товаров пуста");
+        if(productList.isEmpty()) throw new HandlerException("Список товаров пуст");
         return productList;
     }
-    public Product updateProduct(String article, double width, double length, double height, double weight)
+    public Product updateProductParam(String article, double width, double length, double height, double weight)
             throws HandlerException{
         if (!productRepository.existsById(article)){
             throw new HandlerException("Товар с таким артикулом не найден");
         }
-        productRepository.update(article, width, length, height, weight);
+        productRepository.updateProductParam(article, width, length, height, weight);
         return productRepository.getProductsByArticle(article);
+    }
+
+    public void update (Product product) throws HandlerException {
+        if (!productRepository.existsById(product.getArticle())){
+            throw new HandlerException("Товар с таким артикулом не найден");
+        }
+        productRepository.save(product);
+
     }
 
 

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.context.annotation.EnableMBeanExport;
 
+import java.awt.*;
+
 @Entity
 @Table(name = "tb_products")
 public class Product {
@@ -17,14 +19,14 @@ public class Product {
     @NotEmpty(message = "name not empty")
     @Column (nullable = false)
     private String name;
-    @NotNull(message = "provider not null")
-    @ManyToOne
-    @JoinColumn(name = "provider_id", nullable = false)
-    private Provider provider;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Type type;
+    @Enumerated(EnumType.STRING)
     @NotNull(message = "version not null")
     @NotEmpty(message = "version not empty")
     @Column(nullable = false)
-    private String version;
+    private VersionProduct version;
     @Positive
     @DecimalMax(value = "3.0", message ="width is not validated")
     @Column (nullable = false)
@@ -41,19 +43,20 @@ public class Product {
     @DecimalMax(value = "200.0", message = "weight is not validated")
     @Column(nullable = false)
     private double weight;
+    @PositiveOrZero
+    @DecimalMax(value = "100000.0")
+    @Column(nullable = false)
+    private double cost;
 
-/*    public Product(String article, String name, String version) {
-        if (article == null || article.isEmpty()) throw new IllegalArgumentException("article not null");
-        if (name == null || name.isEmpty()) throw new IllegalArgumentException("name not null");
-        if (version == null || version.isEmpty()) throw new IllegalArgumentException("version not null");
+    public Product(String article, String name, VersionProduct version, double cost) {
         this.article = article;
         this.name = name;
         this.version = version;
+        this.cost = cost;
     }
 
     public Product() {
-    }*/
-
+    }
 
     public String getArticle() {
         return article;
@@ -71,11 +74,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getVersion() {
+    public VersionProduct getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(VersionProduct version) {
         this.version = version;
     }
 
@@ -111,11 +114,19 @@ public class Product {
         this.weight = weight;
     }
 
-    public Provider getProvider() {
-        return provider;
+    public double getCost() {
+        return cost;
     }
 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }
