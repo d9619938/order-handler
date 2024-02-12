@@ -1,3 +1,4 @@
+/*
 package com.local.orderhandler.controller;
 
 import com.local.orderhandler.entity.User;
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    ResponseEntity<Void> addUser (@RequestBody @Valid User user) {
+    ResponseEntity<Void> addUser(@RequestBody @Valid User user) {
         try {
             userService.saveUser(user);
             return ResponseEntity.ok().build();
@@ -33,26 +34,28 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
-    @GetMapping ("/get/{id}")
-    public User getUser (@PathVariable int id) {
 
-    }
+    //    @GetMapping ("/get/{id}")
+//    public User getUser (@PathVariable int id) {
+//
+//    }
     @GetMapping("/get")
     public List<User> getAllUsers() {
-        try{
-           return userService.getAllUsers();
-        } catch (HandlerException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-    @DeleteMapping ("/del/{id}")
-    public ResponseEntity<Void> deleteUser (@PathVariable int id) {
         try {
-            userService.deleteUser(id);
+            return userService.getAllUsers();
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    //    @DeleteMapping ("/del/{id}")
+//    public ResponseEntity<Void> deleteUser (@PathVariable int id) {
+//        try {
+//            userService.deleteUser(id);
+//        } catch (HandlerException e) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+//        }
+//    }
     @PutMapping
     private ResponseEntity<Void> update(@RequestBody @Valid User user) {
         try {
@@ -63,4 +66,4 @@ public class UserController {
         }
     }
 
-}
+}*/

@@ -19,8 +19,10 @@ public interface ProductsRepository extends CrudRepository<Product, String> {
 
     @Transactional// поставить на все запросы, кроме SELECT, чтобы сохранялись изменения.
     @Modifying // для Spring data jpa не SELECT запросы
-    @Query(nativeQuery = true, value = "UPDATE tb_products " +
-            "SET width =:width, length =:length, height =:height, weight =:weight WHERE article =:article")
+//    @Query(nativeQuery = true, value = "UPDATE tb_products " +
+//            "SET width =:width, length =:length, height =:height, weight =:weight WHERE article =:article")
+    @Query("update Product p set p.width = :width, p.length = :length, p.height = :height, p.weight = :weight" +
+            " where p.article = :article")
     default void updateProductParam(@NotNull(message = "article not null") @NotEmpty(message = "article not empty") @Size(max = 30)
                         @Param("article") String article,
                                     @Positive @DecimalMax(value = "3.0", message = "width is not validated")

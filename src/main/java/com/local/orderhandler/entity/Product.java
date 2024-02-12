@@ -47,6 +47,12 @@ public class Product {
     @DecimalMax(value = "100000.0")
     @Column(nullable = false)
     private double cost;
+    //дата изменения прайса парсится из файла и обновляется в БД
+
+  /*  @NotNull(message = "imagePatch not null")
+    @NotEmpty(message = "imagePatch not empty")*/
+    @Column(/*nullable = false*/)
+    private String imagePatch;
 
     public Product(String article, String name, VersionProduct version, double cost) {
         this.article = article;
@@ -128,5 +134,13 @@ public class Product {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public String getImagePatch() {
+        return imagePatch;
+    }
+
+    public void setImagePatch(String imagePatch) {
+        this.imagePatch = imagePatch;
     }
 }

@@ -30,7 +30,7 @@ public class ProductsService {
         }
         productRepository.delete(productRepository.getProductsByArticle(article));
     }
-    public Product getProduct(String article) throws HandlerException {
+    public Product getProductById(String article) throws HandlerException {
         if(!productRepository.existsById(article)){
             throw new HandlerException("Товар с таким артикулом не найден");
         }

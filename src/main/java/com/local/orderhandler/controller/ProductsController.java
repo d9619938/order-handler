@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -35,15 +36,39 @@ public class ProductsController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
  }
- @GetMapping("/get/{article}")
- public Product getProduct(@PathVariable("article") String article){
+ @GetMapping("/getHtml")  // НЕ РАБОТАЕТ
+ public String getProduct(@RequestParam() String article, Model model) {
         try{
-            return productService.getProduct(article);
+            Product product = productService.getProductById(article);
+            model.addAttribute("productInfo", product);
+            return "product";
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
  }
- @GetMapping("/get")
+
+ @GetMapping("/get")  // РАБОТАЕТ
+ public Product getProduct(@RequestParam() String article) {
+        try{
+            return productService.getProductById(article);
+        } catch (HandlerException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+
+ @GetMapping("/getAllHtml") // НЕ РАБОТАЕТ
+ public String getProductList(Model model){
+     try {
+         List<Product> productList = productService.getAllProducts();
+         model.addAttribute("products", productList);
+         return "products";
+     } catch (HandlerException e) {
+         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+     }
+ }
+
+ @GetMapping("/getAll") // РАБОТАЕТ
  public List<Product> getAllProducts(){
         try {
             return productService.getAllProducts();
@@ -52,30 +77,30 @@ public class ProductsController {
         }
 
  }
- @DeleteMapping("/del/{article}")
- public ResponseEntity<Void> deleteProduct(@PathVariable("article") String article){
+ @DeleteMapping("/del") // РАБОТАЕТ
+ public ResponseEntity<Void> deleteProduct(@RequestParam("article") String article){
         try {
             productService.deleteProduct(article);
             return  ResponseEntity.ok().build();
         } catch (HandlerException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
  }
- @PatchMapping("/update/{article}/{width}/{length}/{height}/{weight}")
-    public ResponseEntity<Product> updateProductParam (@Size(max = 30) @PathVariable String article,
-                                             @PathVariable double width,
-                                             @PathVariable double length,
-                                             @PathVariable double height,
-                                             @PathVariable double weight) {
+ @PatchMapping("/update") // НЕ РАБОТАЕТ
+    public ResponseEntity<Product> updateProductParam (@Size(max = 30) @RequestParam String article,
+                                             @RequestParam double width,
+                                             @RequestParam double length,
+                                             @RequestParam double height,
+                                             @RequestParam double weight) {
      Product res;
      try{
          res = productService.updateProductParam(article, width, length, height, weight);
      } catch (HandlerException e) {
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+         throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
      }
         return ResponseEntity.ok(res);
  }
- @PutMapping
+ @PutMapping // НЕ РАБОТАЕТ
     public ResponseEntity<Void> update (@RequestBody @Valid Product product)  {
        try {
            productService.update(product);

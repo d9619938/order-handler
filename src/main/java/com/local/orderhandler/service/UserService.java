@@ -1,3 +1,4 @@
+/*
 package com.local.orderhandler.service;
 
 import com.local.orderhandler.entity.Product;
@@ -31,12 +32,12 @@ public class UserService {
         if(userList.isEmpty()) throw new HandlerException("Список пользователей пуст");
         return userList;
     }
-    public void deleteUser(int id) throws HandlerException{
-        if (!userRepository.existsById(id)){
-            throw new HandlerException("Пользователь с id " + id +" не существует");
-        }
-        userRepository.delete(userRepository.findById(id).isPresent().get());
-    }
+//    public void deleteUser(int id) throws HandlerException{
+//        if (!userRepository.existsById(id)){
+//            throw new HandlerException("Пользователь с id " + id +" не существует");
+//        }
+//        userRepository.delete(userRepository.findById(id).isPresent().get());
+//    }
     public void update (User user) throws HandlerException{
         if (!userRepository.existsById(user.getId())){
             throw new HandlerException("Пользователь с id " + user.getId() +" не существует");
@@ -45,3 +46,4 @@ public class UserService {
 
     }
 }
+*/

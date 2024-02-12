@@ -15,25 +15,25 @@ public class User {
     @NotNull(message = "name not null")
     @NotEmpty (message = "name not empty")
     @Column(nullable = false, unique = true)
-    private String name;
+    private String username;
     @NotNull
     @NotEmpty
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String password;
     @NotNull
     @Email
     private String email;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @ManyToOne
     private Role role;
     @OneToOne(cascade = CascadeType.REMOVE)
     private Bucket bucket;
 
     public User() {
     }
-
-    public User(int id) {
-        this.id = id;
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public int getId() {
@@ -44,12 +44,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

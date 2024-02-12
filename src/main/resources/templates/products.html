@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product list</title>
+</head>
+<body>
+<!--<table border="1" align="center">-->
+<!--    <tr>-->
+<!--        <td>Article</td>-->
+<!--        <td>Title</td>-->
+<!--        <td>Price</td>-->
+<!--    </tr>-->
+<!--    <tr th:each="products : ${products}">-->
+<!--        <td th:text="${product.article}"></td>-->
+<!--        <td th:text="${product.name}"></td>-->
+<!--        <td th:text="${product.cost}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<div th:if="${products !=null and !products.isEmpty()}">
+    <!--    далее описываем цикл-->
+    <div th:each="product : ${products}">
+        <h2 th:text="${product.article}"></h2>
+        <h3 th:text="${product.name}"></h3>
+        <h3 th:text="${product.cost}"></h3>
+    </div>
+</div>
+<div th:if="${products == null or products.isEmpty()}">
+    <h2>Товары пока не добавлены продавцом</h2>
+</div>
+
+</body>
+</html>

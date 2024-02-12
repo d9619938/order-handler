@@ -1,6 +1,7 @@
 package com.local.orderhandler.service;
 
 import com.local.orderhandler.entity.Price;
+import com.local.orderhandler.entity.Product;
 import com.local.orderhandler.exception.HandlerException;
 import com.local.orderhandler.repository.PricesRepository;
 import org.springframework.beans.factory.annotation.Autowired;

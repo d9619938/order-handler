@@ -2,10 +2,7 @@ package com.local.orderhandler.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -32,6 +29,7 @@ public class Invoice {
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
     private List<InvoiceDetails> invoiceDetails = new ArrayList<>();
     @NotNull
+    @PositiveOrZero
     private double sum;
 
     public Invoice(LocalDate createdAt, User user, List<InvoiceDetails> invoiceDetails) {

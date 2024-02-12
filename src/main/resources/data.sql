@@ -6,8 +6,12 @@ INSERT INTO tb_products (article, name, type, version, width, length, height, we
  ('1234/04', 'Нильс', 'ARMCHAIR', 'YELLOW', 0.7, 0.6, 1.2, 37, 23560.30),
  ('1234/05', 'Комфорт', 'SOFA', 'RED', 2.0, 0.9, 1.1, 90, 16990.50);
 
-INSERT INTO tb_users (bucket_id, email, name, password, role)
-VALUES (null, '9619938@yandex.ru', 'Дмитрий', '1234', 'BUYER');
+-- INSERT INTO tb_users (bucket_id, email, name, password, role)
+-- VALUES (null, '9619938@yandex.ru', 'Дмитрий', '1234', 'BUYER');
+--
+-- INSERT INTO tb_prices (created_at) VALUES ('01-01-2024');
+--
+-- INSERT INTO tb_prices_products (price_id, product_article) VALUES (1, (SELECT article FROM tb_products));
 
 
 
