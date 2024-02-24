@@ -8,15 +8,17 @@ import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.util.List;
 @Validated
-@RestController
+@Controller
 @RequestMapping("/products")
 public class ProductsController {
     private final ProductsService productService;
@@ -26,18 +28,24 @@ public class ProductsController {
         this.productService = productService;
     }
 
- @PostMapping()
- public ResponseEntity<Void> addProduct(@RequestBody @Valid Product product) {
+  @GetMapping("/add")
+  public String getProductAddFormHTML(Product product){
+        return "productAddForm";
+  }
+
+ @PostMapping("/add")
+ public ResponseEntity<Void> addProductHTML(@Valid Product product,
+                                        @ModelAttribute MultipartFile image) { // НАДО ТЕСТИРОВАТЬ
         try {
-            String productUrl = productService.saveProduct(product);
+            String productUrl = productService.saveProduct(product, image);
             URI location = URI.create("http://127.0.0.1:8080/products/" + productUrl);
             return ResponseEntity.created(location).build();
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
  }
- @GetMapping("/getHtml")  // НЕ РАБОТАЕТ
- public String getProduct(@RequestParam() String article, Model model) {
+ @GetMapping("/getHtml")  // РАБОТАЕТ
+ public String getProductHTML(@RequestParam() String article, Model model) {
         try{
             Product product = productService.getProductById(article);
             model.addAttribute("productInfo", product);
@@ -46,9 +54,9 @@ public class ProductsController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
  }
-
+ @ResponseBody
  @GetMapping("/get")  // РАБОТАЕТ
- public Product getProduct(@RequestParam() String article) {
+ public Product getProductJSON(@RequestParam() String article) {
         try{
             return productService.getProductById(article);
         } catch (HandlerException e) {
@@ -57,19 +65,16 @@ public class ProductsController {
     }
 
 
- @GetMapping("/getAllHtml") // НЕ РАБОТАЕТ
- public String getProductList(Model model){
-     try {
-         List<Product> productList = productService.getAllProducts();
+ @GetMapping("/getAllHtml") // РАБОТАЕТ
+ public String getAllProductsHTML(Model model){
+//     try {
+         List<Product> productList = productService.getProductList();
          model.addAttribute("products", productList);
          return "products";
-     } catch (HandlerException e) {
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
-     }
  }
-
+ @ResponseBody
  @GetMapping("/getAll") // РАБОТАЕТ
- public List<Product> getAllProducts(){
+ public List<Product> getAllProductsJSON(){
         try {
             return productService.getAllProducts();
         } catch (HandlerException e) {
@@ -77,6 +82,7 @@ public class ProductsController {
         }
 
  }
+ @ResponseBody
  @DeleteMapping("/del") // РАБОТАЕТ
  public ResponseEntity<Void> deleteProduct(@RequestParam("article") String article){
         try {
@@ -86,7 +92,8 @@ public class ProductsController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
  }
- @PatchMapping("/update") // НЕ РАБОТАЕТ
+ @ResponseBody
+ @PatchMapping("/update") // РАБОТАЕТ
     public ResponseEntity<Product> updateProductParam (@Size(max = 30) @RequestParam String article,
                                              @RequestParam double width,
                                              @RequestParam double length,
@@ -100,8 +107,10 @@ public class ProductsController {
      }
         return ResponseEntity.ok(res);
  }
- @PutMapping // НЕ РАБОТАЕТ
-    public ResponseEntity<Void> update (@RequestBody @Valid Product product)  {
+ @ResponseBody
+ @PutMapping("/update") // РАБОТАЕТ (нужно передать в Body(raw) полный json объекта
+ // {"article":"1234/02","name":"Джейн","type":"BED","version":"BLACK","width":0.8,"length":1.6,"height":0.15,"weight":40.0,"cost":13440.0,"imagePatch":null})
+    public ResponseEntity<Void> updateProduct (@RequestBody @Valid Product product)  {
        try {
            productService.update(product);
            return ResponseEntity.ok().build();

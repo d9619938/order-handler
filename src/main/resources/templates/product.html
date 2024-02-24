@@ -7,15 +7,63 @@
 <body>
 <div>
     <h2>Информация о товаре:</h2>
-    <h2 th:text="${productInfo.article}"></h2>
-    <p th:text="${productInfo.name}"></p>
-    <p th:text="${productInfo.version}"></p>
-    <p th:text="${productInfo.type}"></p>
-    <p th:text="${productInfo.width}"></p>
-    <p th:text="${productInfo.length}"></p>
-    <p th:text="${productInfo.height}"></p>
-    <p th:text="${productInfo.weight}"></p>
-    <p th:text="${productInfo.cost}"></p>
+</div>
+<div>
+    <table border="4" align="left">
+        <tr>
+            <td>Article</td>
+            <td>Title</td>
+            <td>Version</td>
+            <td>Type</td>
+            <td>Width</td>
+            <td>Length</td>
+            <td>Height</td>
+            <td>Weight</td>
+            <td>Price</td>
+            <td>Link to picture</td>
+        </tr>
+        <tr>
+            <td th:text="${productInfo.article}"></td>
+            <td th:text="${productInfo.name}"></td>
+            <td th:text="${productInfo.version}"></td>
+            <td th:text="${productInfo.type}"></td>
+            <td th:text="${productInfo.width}"></td>
+            <td th:text="${productInfo.length}"></td>
+            <td th:text="${productInfo.height}"></td>
+            <td th:text="${productInfo.weight}"></td>
+            <td th:text="${productInfo.cost}"></td>
+            <td>
+                <!--        пробрасываем путь к картинке через <img th:src="@{-->
+                <!--        вместо параметра {path} будет подставляться свойство pictureInfo.imagePath -->
+                <img th:src="@{/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта (попытка 1)">
+            </td>
+        </tr>
+    </table>
+    <div>
+        <img th:src="@{/products/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта (попытка 2)">
+    </div>
+    <div>
+        <img src="/products/images/alfa.jpg" alt="Изображение продукта (попытка 3)">
+    </div>
+    <div>
+        <img src="images/alfa.jpg" alt="Изображение продукта (попытка 4)">
+    </div>
+    <div>
+        <img src="/Users/dmitrijbogdanov/IdeaProjects/my-training/order-handler/src/main/resources/images/alfa.jpg" alt="Изображение продукта (попытка 5)">
+    </div>
+    <div>
+        <img src="https://salotti-mebel.ru/upload/resize_cache/iblock/a6d/700_400_1/1raiu3jen6662omqyoxwrgub5pffaf5h.png
+" alt="Изображение продукта (попытка 6)">
+    </div>
+    <div>
+        <img src="/products/images/alfa.png" alt="Изображение продукта (попытка 7)">
+    </div>
+    <div>
+        <img src="alfa.jpg" alt="Изображение продукта (попытка 8)">
+    </div>
+    <div>
+        <img src="1raiu3jen6662omqyoxwrgub5pffaf5h.png" alt="Изображение продукта (попытка 9)">
+    </div>
 </div>
 <!--<div>
     <img th:src="@{/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта">

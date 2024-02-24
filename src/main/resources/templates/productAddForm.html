@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма добавления нового продукта</title>
+</head>
+<body>
+<form action="#" th:action="@{/products/add}" th:object="${product}" method="post" enctype="multipart/form-data">
+
+    <h2>Вы находитесь на странице добавления нового продукта.</h2>
+    <h3>Заполните поля ниже, загрузите jpeg картинку не более 10 Мб, затем нажмите "Сохранить".</h3>
+
+    <div>
+        <label for="article">Артикул</label>
+        <input type="text" th:field="*{article}" id="article" placeholder="Введите артикул">
+<!--        <span th:if="${fields.hasErrors('article')}" th:errors="*{article}"></span>-->
+    </div>
+    <div>
+        <label for="name">Наименование</label>
+        <input type="text" th:field="*{name}" id="name" placeholder="Введите наименование">
+<!--        <span th:if="${fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+    </div>
+    <div>
+        <label for="version">Вариант исполнения</label>
+        <input type="text" th:field="*{version}" id="version" placeholder="Введите вариант исполнения">
+<!--        <span th:if="${fields.hasErrors('version')}" th:errors="*{version}"></span>-->
+    </div>
+    <div>
+        <label for="type">Тип</label>
+        <input type="text" th:field="*{type}" id="type" placeholder="Введите тип">
+<!--        <span th:if="${fields.hasErrors('type')}" th:errors="*{type}"></span>-->
+    </div>
+    <div>
+        <label for="width">Ширина, м.</label>
+        <input type="text" th:field="*{width}" id="width" placeholder="Введите ширину">
+<!--        <span th:if="${fields.hasErrors('width')}" th:errors="*{width}"></span>-->
+    </div>
+    <div>
+        <label for="length">Длина, м.</label>
+        <input type="text" th:field="*{length}" id="length" placeholder="Введите длину">
+<!--        <span th:if="${fields.hasErrors('length')}" th:errors="*{length}"></span>-->
+    </div>
+    <div>
+        <label for="height">Высота, м.</label>
+        <input type="text" th:field="*{height}" id="height" placeholder="Введите высоту">
+<!--        <span th:if="${fields.hasErrors('height')}" th:errors="*{height}"></span>-->
+    </div>
+    <div>
+        <label for="weight">Вес, кг.</label>
+        <input type="text" th:field="*{weight}" id="weight" placeholder="Введите вес">
+<!--        <span th:if="${fields.hasErrors('weight')}" th:errors="*{weight}"></span>-->
+    </div>
+    <div>
+        <label for="cost">Цена, руб.</label>
+        <input type="text" th:field="*{cost}" id="cost" placeholder="Введите артикул">
+<!--        <span th:if="${fields.hasErrors('cost')}" th:errors="*{cost}"></span>-->
+    </div>
+    <div>
+        <input type="file" name="image" accept="image/jpeg">
+    </div>
+
+    <p><input type="submit" value="Сохранить" /> <input type="reset" value="Стереть" /></p>
+</form>
+</body>
+</html>

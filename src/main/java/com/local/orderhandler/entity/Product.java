@@ -24,7 +24,6 @@ public class Product {
     private Type type;
     @Enumerated(EnumType.STRING)
     @NotNull(message = "version not null")
-    @NotEmpty(message = "version not empty")
     @Column(nullable = false)
     private VersionProduct version;
     @Positive

@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/account") //account/login
+@RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
 
@@ -25,22 +25,23 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/registration")
-    public String getRegistrationForm(User user){
+    @GetMapping("/registration") // РАБОТАЕТ
+    public String getRegistrationFormHTML(User user){ // РАБОТАЕТ
         return "registrationForm";
     }
+
     @PostMapping("/registration")
-    public String addNewUser(@Valid User user, BindingResult bindingResult){
+    public String addNewUserHTML(@Valid User user, BindingResult bindingResult){ // РАБОТАЕТ
         if(bindingResult.hasErrors()) return "registrationForm";
-        setupDefaultRole(user);
+//       setupDefaultRole(user);
         try {
             accountService.saveUser(user);
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
-        return "redirect:account/login";
+        return "redirect:login";
     }
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login() {
         return "login";
     }
@@ -50,9 +51,9 @@ public class AccountController {
         def.setRoleType(Role.RoleType.ROLE_BUYER);
         user.setRole(def);
     }
-
+    @ResponseBody
     @PutMapping("/update")
-    private ResponseEntity<Void> update(@RequestBody @Valid User user){
+    private ResponseEntity<Void> update(@RequestBody @Valid User user){  // НЕ РАБОТАЕТ ?
         try {
             accountService.update(user);
             return ResponseEntity.ok().build();
@@ -61,16 +62,18 @@ public class AccountController {
         }
     }
 
+    @ResponseBody
     @GetMapping("/getAll")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsersJSON(){ // РАБОТАЕТ
         try {
             return accountService.getAllUsers();
         } catch (HandlerException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+    @ResponseBody
     @GetMapping("/get")
-    public User getUserById(@RequestParam int id) {
+    public User getUserById(@RequestParam int id) { // РАБОТАЕТ
         try {
             return accountService.getUserById(id);
         } catch (HandlerException e){
@@ -78,7 +81,7 @@ public class AccountController {
         }
     }
 
-    @DeleteMapping("/del")
+    @DeleteMapping("/del") // РАБОТАЕТ
     public ResponseEntity<Void> deleteUser(@RequestParam int id){
         try{
             accountService.deleteUser(id);

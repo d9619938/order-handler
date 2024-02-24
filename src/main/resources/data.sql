@@ -1,10 +1,10 @@
 -- тут пишется только нативный (оригинальный) SQL
-INSERT INTO tb_products (article, name, type, version, width, length, height, weight, cost) VALUES
- ('1234/01', 'Альфа', 'ARMCHAIR', 'YELLOW', 0.8, 0.9, 1.0, 45, 19290.00),
- ('1234/02', 'Джейн', 'BED', 'BLACK', 0.8, 1.6, 0.15, 40, 13440.00),
- ('1234/03', 'Европа', 'SOFA', 'YELLOW', 1.9, 0.6, 0.8, 30, 12590.00),
- ('1234/04', 'Нильс', 'ARMCHAIR', 'YELLOW', 0.7, 0.6, 1.2, 37, 23560.30),
- ('1234/05', 'Комфорт', 'SOFA', 'RED', 2.0, 0.9, 1.1, 90, 16990.50);
+INSERT INTO tb_products (article, name, type, version, width, length, height, weight, cost, image_patch) VALUES
+ ('1234/01', 'Альфа', 'ARMCHAIR', 'YELLOW', 0.8, 0.9, 1.0, 45, 19290.00, 'alfa.jpg'),
+ ('1234/02', 'Джейн', 'BED', 'BLACK', 0.8, 1.6, 0.15, 40, 13440.00, ''),
+ ('1234/03', 'Европа', 'SOFA', 'YELLOW', 1.9, 0.6, 0.8, 30, 12590.00, ''),
+ ('1234/04', 'Нильс', 'ARMCHAIR', 'YELLOW', 0.7, 0.6, 1.2, 37, 23560.30, ''),
+ ('1234/05', 'Комфорт', 'SOFA', 'RED', 2.0, 0.9, 1.1, 90, 16990.50, '');
 
 -- INSERT INTO tb_users (bucket_id, email, name, password, role)
 -- VALUES (null, '9619938@yandex.ru', 'Дмитрий', '1234', 'BUYER');

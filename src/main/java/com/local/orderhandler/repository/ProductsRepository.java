@@ -2,12 +2,15 @@ package com.local.orderhandler.repository;
 
 import com.local.orderhandler.entity.Product;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 public interface ProductsRepository extends CrudRepository<Product, String> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM tb_products WHERE article =:article")
@@ -23,7 +26,7 @@ public interface ProductsRepository extends CrudRepository<Product, String> {
 //            "SET width =:width, length =:length, height =:height, weight =:weight WHERE article =:article")
     @Query("update Product p set p.width = :width, p.length = :length, p.height = :height, p.weight = :weight" +
             " where p.article = :article")
-    default void updateProductParam(@NotNull(message = "article not null") @NotEmpty(message = "article not empty") @Size(max = 30)
+    void updateProductParam(@NotNull(message = "article not null") @NotEmpty(message = "article not empty") @Size(max = 30)
                         @Param("article") String article,
                                     @Positive @DecimalMax(value = "3.0", message = "width is not validated")
                         @Param("width") double width,
@@ -32,6 +35,5 @@ public interface ProductsRepository extends CrudRepository<Product, String> {
                                     @Positive @DecimalMax(value = "3.0", message = "height is not validated")
                         @Param("height") double height,
                                     @Positive @DecimalMax(value = "200.0", message = "weight is not validated")
-                        @Param("weight") double weight) {
-    }
+                        @Param("weight") double weight);
 }
