@@ -33,13 +33,12 @@ public class AccountController {
     @PostMapping("/registration")
     public String addNewUserHTML(@Valid User user, BindingResult bindingResult){ // РАБОТАЕТ
         if(bindingResult.hasErrors()) return "registrationForm";
-//       setupDefaultRole(user);
         try {
             accountService.saveUser(user);
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
-        return "redirect:login";
+        return "redirect:account/login";
     }
     @GetMapping("login")
     public String login() {
@@ -89,5 +88,10 @@ public class AccountController {
         } catch (HandlerException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    @GetMapping
+    public String account(){
+        return "account";
     }
 }

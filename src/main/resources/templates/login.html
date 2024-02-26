@@ -5,10 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<form action="#" th:action="@{/account/login}" method="post">
+<a th:href="@{/account/logout}">Выйти из личного кабинета </a>
+<form class="some-class" action="#" th:action="@{/account/login}" method="post">
 
     <h2>Для входа в программу необходимо ввести имя пользователя и пароль, после нажать кнопку "войти".</h2>
 
+        <p th:if="${param.failed}">Ошибка ввода данных авторизации, попробуйте еще раз.</p>
         <input type="text" name="username" placeholder="Введите имя">
         <input type="password" name="password" placeholder="Введите пароль">
     <input type="submit" value="Войти">

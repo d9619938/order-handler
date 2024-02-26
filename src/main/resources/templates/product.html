@@ -35,39 +35,10 @@
             <td>
                 <!--        пробрасываем путь к картинке через <img th:src="@{-->
                 <!--        вместо параметра {path} будет подставляться свойство pictureInfo.imagePath -->
-                <img th:src="@{/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта (попытка 1)">
+                <!--     файл должен лежать именно в static/images - иначе teamleaf не найдет его           -->
+                <img th:src="@{/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта">
             </td>
         </tr>
     </table>
-    <div>
-        <img th:src="@{/products/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта (попытка 2)">
-    </div>
-    <div>
-        <img src="/products/images/alfa.jpg" alt="Изображение продукта (попытка 3)">
-    </div>
-    <div>
-        <img src="images/alfa.jpg" alt="Изображение продукта (попытка 4)">
-    </div>
-    <div>
-        <img src="/Users/dmitrijbogdanov/IdeaProjects/my-training/order-handler/src/main/resources/images/alfa.jpg" alt="Изображение продукта (попытка 5)">
-    </div>
-    <div>
-        <img src="https://salotti-mebel.ru/upload/resize_cache/iblock/a6d/700_400_1/1raiu3jen6662omqyoxwrgub5pffaf5h.png
-" alt="Изображение продукта (попытка 6)">
-    </div>
-    <div>
-        <img src="/products/images/alfa.png" alt="Изображение продукта (попытка 7)">
-    </div>
-    <div>
-        <img src="alfa.jpg" alt="Изображение продукта (попытка 8)">
-    </div>
-    <div>
-        <img src="1raiu3jen6662omqyoxwrgub5pffaf5h.png" alt="Изображение продукта (попытка 9)">
-    </div>
-</div>
-<!--<div>
-    <img th:src="@{/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта">
-</div>-->
-
 </body>
 </html>

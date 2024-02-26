@@ -1,19 +1,14 @@
-/*
+
 package com.local.orderhandler.repository;
 
 import com.local.orderhandler.entity.User;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
+
 
 public interface UserRepository extends CrudRepository<User,Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM tb_users WHERE name =:name")
-    User getUserByName(@NotNull(message = "name not null")
-                       @NotEmpty(message = "name not empty")
-                       @Param("name")
-                       String name);
-
+//    @Query(nativeQuery = true, value = "SELECT * FROM tb_users WHERE username = :username")
+    Optional<User> findByUsername(String username); //нужно для аутентификации пользователя
 }
-*/

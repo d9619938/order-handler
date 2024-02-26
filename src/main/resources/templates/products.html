@@ -29,7 +29,9 @@
             <td th:text="${product.height}"></td>
             <td th:text="${product.weight}"></td>
             <td th:text="${product.cost}"></td>
-            <td th:src="@{/{path}(path=${product.imagePatch})}" alt="Изображение продукта"></td>
+            <td>
+                <img th:src="@{/images/{path}(path=${product.imagePatch})}" alt="Изображение продукта" width="200" height="170">
+            </td>
         </tr>
     </table>
 </div>

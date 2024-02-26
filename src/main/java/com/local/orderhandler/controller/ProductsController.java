@@ -8,8 +8,10 @@ import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,15 +36,15 @@ public class ProductsController {
   }
 
  @PostMapping("/add")
- public ResponseEntity<Void> addProductHTML(@Valid Product product,
-                                        @ModelAttribute MultipartFile image) { // НАДО ТЕСТИРОВАТЬ
+ public String addProductHTML(@Valid Product product,
+                              @ModelAttribute MultipartFile image, BindingResult bindingResult) { // НАДО ТЕСТИРОВАТЬ
+        if(bindingResult.hasErrors()) return "productAddForm";
         try {
-            String productUrl = productService.saveProduct(product, image);
-            URI location = URI.create("http://127.0.0.1:8080/products/" + productUrl);
-            return ResponseEntity.created(location).build();
+            productService.saveProduct(product, image);
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
+        return "redirect:getAllHtml";
  }
  @GetMapping("/getHtml")  // РАБОТАЕТ
  public String getProductHTML(@RequestParam() String article, Model model) {
@@ -82,6 +84,8 @@ public class ProductsController {
         }
 
  }
+
+ @Secured("ROLE_ADMIN")
  @ResponseBody
  @DeleteMapping("/del") // РАБОТАЕТ
  public ResponseEntity<Void> deleteProduct(@RequestParam("article") String article){
@@ -92,6 +96,8 @@ public class ProductsController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
  }
+
+ @Secured({"ROLE_MANAGER", "ROLE_ADMIN"})
  @ResponseBody
  @PatchMapping("/update") // РАБОТАЕТ
     public ResponseEntity<Product> updateProductParam (@Size(max = 30) @RequestParam String article,

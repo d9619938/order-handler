@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -27,8 +30,9 @@ public class ProductsService {
         if (productRepository.existsById(product.getArticle())){
             throw new HandlerException("Товар с таким артикулом уже существует");
         }
-        productRepository.save(product);
+//        productRepository.save(product);
         product.setImagePatch(saveFile(image));
+        productRepository.save(product);
         return product.getArticle();
     }
 
@@ -71,24 +75,31 @@ public class ProductsService {
 
 
     private String saveFile(MultipartFile image) throws HandlerException {
-        String check;
-//        if(!(check=checkFile(image)).equals("OK")) throw new HandlerException("Файл не прошел валидацию." + check);
-        String fileName = "/Users/dmitrijbogdanov/IdeaProjects/my-training/order-handler/src/main/resources/static/images"
-                + image.getOriginalFilename() + UUID.randomUUID();
+        String check = checkFile(image);
+        if(!check.equals("true")) throw new HandlerException("Файл не прошел валидацию." + check);
+        String fileName = "src/main/resources/static/images/"
+                + UUID.randomUUID() + "-" + image.getOriginalFilename();
         try {
-            Files.write(Path.of(fileName), image.getBytes());
-            return fileName;
+           try(OutputStream os = new FileOutputStream(fileName)) {
+               os.write(image.getBytes());
+           }
+            return parseFileName(fileName);
         } catch (IOException e) {
             throw new HandlerException("Проблема загрузки файла " + e.getMessage());
         }
     }
     private String checkFile(MultipartFile image) {
-        if(image.isEmpty()) return "Вам не удалось загрузить" + image.getName() + " потому, что файл пустой.";
-        if(image.getSize() >= 10*1024*1024) return "Вам не удалось загрузить" + image.getName() + " потому, что файл" +
+        if(image.isEmpty()) return "Вам не удалось загрузить" + image.getOriginalFilename() + " потому, что файл пустой.";
+        if(image.getSize() >= 10*1024*1024) return "Вам не удалось загрузить " + image.getOriginalFilename() + " потому, что файл" +
                 " превышает допустимый размер (10 Мб).";
         if(!Objects.requireNonNull(image.getOriginalFilename()).endsWith(".jpg")) return "Вам не удалось загрузить"
-                + image.getName() + " потому, что тип файла не jpeg";
-        return "ОК";
+                + image.getOriginalFilename() + " потому, что тип файла не jpeg";
+        return "true";
+    }
+
+    private String parseFileName (String fileName) {
+       String[] strings = fileName.split("/");
+       return strings[strings.length-1];
     }
 
 
