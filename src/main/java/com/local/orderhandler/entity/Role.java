@@ -7,14 +7,14 @@ import jakarta.persistence.*;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Enumerated(value = EnumType.STRING)
     private RoleType roleType;
 
     public enum RoleType{
-        ROLE_BUYER, ROLE_MANAGER, ROLE_ADMIN  // префикс ROLE обязателен
+        ROLE_BUYER, ROLE_MANAGER, ROLE_ADMIN// префикс ROLE обязателен
     }
 
     public RoleType getRoleType() {

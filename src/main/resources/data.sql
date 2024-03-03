@@ -6,6 +6,10 @@ INSERT INTO tb_products (article, name, type, version, width, length, height, we
  ('1234/04', 'Нильс', 'ARMCHAIR', 'YELLOW', 0.7, 0.6, 1.2, 37, 23560.30, ''),
  ('1234/05', 'Комфорт', 'SOFA', 'RED', 2.0, 0.9, 1.1, 90, 16990.50, '');
 
+
+INSERt INTO tb_roles(id, role_type) VALUES (1, 'ROLE_BUYER');
+INSERt INTO tb_roles(id, role_type) VALUES (2, 'ROLE_MANAGER');
+INSERt INTO tb_roles(id, role_type) VALUES (3, 'ROLE_ADMIN');
 -- INSERT INTO tb_users (bucket_id, email, name, password, role)
 -- VALUES (null, '9619938@yandex.ru', 'Дмитрий', '1234', 'BUYER');
 --

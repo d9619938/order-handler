@@ -8,6 +8,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,7 @@ public class AccountController {
 
     @GetMapping("/registration") // РАБОТАЕТ
     public String getRegistrationFormHTML(User user){ // РАБОТАЕТ
+        if (isAuthenticated()) return "redirect:/account";
         return "registrationForm";
     }
 
@@ -38,10 +42,11 @@ public class AccountController {
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
-        return "redirect:account/login";
+        return "redirect:/account/login";
     }
     @GetMapping("login")
     public String login() {
+        if (isAuthenticated()) return "redirect:/account";
         return "login";
     }
 
@@ -93,5 +98,14 @@ public class AccountController {
     @GetMapping
     public String account(){
         return "account";
+    }
+
+    // можно заменить на Filter
+    private boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || AnonymousAuthenticationToken.class. isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return authentication.isAuthenticated();
     }
 }
