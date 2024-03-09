@@ -83,4 +83,5 @@ public class User {
     public void setBucket(Bucket bucket) {
         this.bucket = bucket;
     }
+
 }

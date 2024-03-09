@@ -10,6 +10,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+
 @Validated
 public interface ProductsRepository extends CrudRepository<Product, String> {
 
@@ -19,6 +21,7 @@ public interface ProductsRepository extends CrudRepository<Product, String> {
                                  @Size(max = 30)
                                  @Param("article")
                                  String productArticle);
+
 
     @Transactional// поставить на все запросы, кроме SELECT, чтобы сохранялись изменения.
     @Modifying // для Spring data jpa не SELECT запросы

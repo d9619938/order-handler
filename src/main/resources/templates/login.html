@@ -2,19 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Мебель-клик</title>
 </head>
 <body>
+<div th:insert="~{fragments/banner :: #nav-banner}"></div>
 
 <form class="some-class" action="#" th:action="@{/account/login}" method="post">
-
     <h2>Для входа в программу необходимо ввести имя пользователя и пароль, после нажать кнопку "войти".</h2>
 
         <p th:if="${param.failed}">Ошибка ввода данных авторизации, попробуйте еще раз.</p>
         <input type="text" name="username" placeholder="Введите имя">
         <input type="password" name="password" placeholder="Введите пароль">
     <input type="submit" value="Войти">
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2>Если аккаунт не создан, то Вам необходимо зарегистрироваться</h2>
+    <a th:href="@{/account/registration}">Зарегистрировать новый аккаунт</a>
+
 </form>
+
 
 </body>
 </html>

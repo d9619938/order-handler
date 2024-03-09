@@ -42,7 +42,7 @@ public class SpringSecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
        return httpSecurity.csrf(AbstractHttpConfigurer::disable) // отмена проверки токенов
 //               .securityMatcher("/account/**")
-               .authenticationProvider(authenticationProvider()) // атентификация будет производиться нашим AuthenticationProvider
+               .authenticationProvider(authenticationProvider()) // аутентификация будет производиться нашим AuthenticationProvider
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/account/registration", "account/login")
                         .permitAll()//запросы доступны всем

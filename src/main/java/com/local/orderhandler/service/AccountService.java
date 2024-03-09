@@ -63,4 +63,7 @@ public class AccountService {
     public User getUserById(int id) throws HandlerException {
         return accountRepository.findById(id).orElseThrow(() -> new HeadlessException("Пользователь с id " + id + " не найден"));
     }
+    public User getUserByUsername(String username)throws HandlerException{
+        return accountRepository.getUserByUsername(username).orElseThrow(() -> new HeadlessException("Пользователь с именем " + username + " не найден"));
+    }
 }

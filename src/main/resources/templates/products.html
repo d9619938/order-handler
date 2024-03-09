@@ -2,22 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Product list</title>
+    <title>Мебель-клик</title>
 </head>
 <body>
+<div th:insert="~{fragments/banner :: #nav-banner}"></div>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
 <div th:if="${products != null and !products.isEmpty()}">
     <table border="1" align="center">
         <tr>
-            <td>Article</td>
-            <td>Title</td>
-            <td>Version</td>
-            <td>Type</td>
-            <td>Width</td>
-            <td>Length</td>
-            <td>Height</td>
-            <td>Weight</td>
-            <td>Price</td>
-            <td>Link to picture</td>
+            <td>Артикул</td>
+            <td>Наименование</td>
+            <td>Вариант исполнения</td>
+            <td>Тип</td>
+            <td>Ширина, м</td>
+            <td>Длина, м</td>
+            <td>Высота, м</td>
+            <td>Вес, кг</td>
+            <td>Цена, руб</td>
+            <td>Изображение</td>
+            <td>Действия</td>
         </tr>
         <tr th:each="product : ${products}">
             <td th:text="${product.article}"></td>
@@ -32,14 +36,27 @@
             <td>
                 <img th:src="@{/images/{path}(path=${product.imagePatch})}" alt="Изображение продукта" width="200" height="170">
             </td>
+            <td>
+                <button  th:attr="data-product-article=${product.article}" name="Добавить в заказ" type="button">
+                    Добавить в заказ
+                </button>
+                <button th:attr="data-product-article=${product.article}" style="display: none"
+                        name="Удалить из заказа" type="button">
+                    Удалить из заказа
+                </button>
+            </td>
         </tr>
     </table>
 </div>
 
-<div th:if="${products == null or products.isEmpty()}">-->
-        <h2>Товары пока не добавлены продавцом</h2>
+<div th:if="${products == null or products.isEmpty()}">
+        <h2>Страница в разработке, товары пока не добавлены продавцом</h2>
 </div>
 
+<script th:src="@{/js/add-to-order.js}"></script>
+
+</body>
+</html>
 
 <!--<div th:if="${products !=null and !products.isEmpty()}">-->
 <!--    &lt;!&ndash;    далее описываем цикл&ndash;&gt;-->
@@ -53,5 +70,3 @@
 <!--    <h2>Товары пока не добавлены продавцом</h2>-->
 <!--</div>-->
 
-</body>
-</html>

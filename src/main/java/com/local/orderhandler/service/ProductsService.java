@@ -1,8 +1,12 @@
 package com.local.orderhandler.service;
 
+import com.local.orderhandler.entity.Bucket;
 import com.local.orderhandler.entity.Product;
+import com.local.orderhandler.entity.User;
 import com.local.orderhandler.exception.HandlerException;
+import com.local.orderhandler.repository.BucketRepository;
 import com.local.orderhandler.repository.ProductsRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +17,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -20,10 +25,14 @@ import java.util.UUID;
 @Service
 public class ProductsService {
     private final ProductsRepository productRepository;
+    private final AccountService accountService;
+    private final BucketService bucketService;
 
     @Autowired
-    public ProductsService(ProductsRepository productRepository) {
+    public ProductsService(ProductsRepository productRepository, AccountService accountService, BucketService bucketService) {
         this.productRepository = productRepository;
+        this.accountService = accountService;
+        this.bucketService = bucketService;
     }
 
     public String saveProduct(Product product, MultipartFile image) throws HandlerException{
@@ -100,6 +109,18 @@ public class ProductsService {
     private String parseFileName (String fileName) {
        String[] strings = fileName.split("/");
        return strings[strings.length-1];
+    }
+    @Transactional
+    public void addToUserBucket(String productArticle, String username) throws HandlerException {
+        User user = accountService.getUserByUsername(username);
+        Bucket bucket = user.getBucket();
+        if (bucket == null){
+            Bucket newBucket = bucketService.createBucket(user, Collections.singletonList(productArticle));
+            user.setBucket(newBucket);
+            accountService.saveUser(user);
+        } else {
+            bucketService.addProducts(bucket, Collections.singletonList(productArticle));
+        }
     }
 
 

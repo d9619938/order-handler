@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Мебель-клик</title>
 </head>
 <body>
+<div th:insert="~{fragments/banner :: #nav-banner}"></div>
+
 <form action="#" th:action="@{/account/registration}" th:object="${user}" method="post">
 
     <h2>Вы находитесь на странице регистрации.</h2>

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 @Validated
 @Controller
@@ -44,7 +45,7 @@ public class ProductsController {
         } catch (HandlerException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
-        return "redirect:getAllHtml";
+        return "redirect:/getAllHtml";
  }
  @GetMapping("/getHtml")  // РАБОТАЕТ
  public String getProductHTML(@RequestParam() String article, Model model) {
@@ -67,7 +68,7 @@ public class ProductsController {
     }
 
 
- @GetMapping("/getAllHtml") // РАБОТАЕТ
+    @GetMapping("/getAllHtml") // РАБОТАЕТ
  public String getAllProductsHTML(Model model){
 //     try {
          List<Product> productList = productService.getProductList();
@@ -124,4 +125,18 @@ public class ProductsController {
            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
        }
  }
+
+ @GetMapping("/{article}/bucket")
+    public String addBucket (@PathVariable String article, Principal principal){
+        if (principal == null) {
+            return "redirect:/products/getAllHtml";
+        }
+     try {
+         productService.addToUserBucket(article, principal.getName());
+         return "redirect:/products/getAllHtml";
+     } catch (HandlerException e) {
+         throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+     }
+ }
+
 }

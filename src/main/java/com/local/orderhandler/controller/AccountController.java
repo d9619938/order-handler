@@ -55,6 +55,8 @@ public class AccountController {
         def.setRoleType(Role.RoleType.ROLE_BUYER);
         user.setRole(def);
     }
+
+
     @ResponseBody
     @PutMapping("/update")
     private ResponseEntity<Void> update(@RequestBody @Valid User user){  // НЕ РАБОТАЕТ ?
@@ -100,6 +102,7 @@ public class AccountController {
         return "account";
     }
 
+
     // можно заменить на Filter
     private boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -107,5 +110,13 @@ public class AccountController {
             return false;
         }
         return authentication.isAuthenticated();
+    }
+    @GetMapping("/development")
+    public String development(){
+        return "development";
+    }
+    @GetMapping("/home")
+    public String home(){
+        return "home";
     }
 }
