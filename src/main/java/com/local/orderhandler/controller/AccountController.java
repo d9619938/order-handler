@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -119,4 +120,11 @@ public class AccountController {
     public String home(){
         return "home";
     }
+
+//    @GetMapping("/profile")
+//    public String getProfileUser (User user, Principal principal){
+//        if (!isAuthenticated()) return "login";
+//
+//        User
+//    }
 }

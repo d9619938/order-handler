@@ -126,11 +126,11 @@ public class ProductsController {
        }
  }
 
- @GetMapping("/{article}/bucket")
+ @GetMapping("/bucket/{article}")
     public String addBucket (@PathVariable String article, Principal principal){
         if (principal == null) {
             return "redirect:/products/getAllHtml";
-        }
+            }
      try {
          productService.addToUserBucket(article, principal.getName());
          return "redirect:/products/getAllHtml";

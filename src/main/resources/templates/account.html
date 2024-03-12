@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Мебель-клик</title>
@@ -8,6 +9,22 @@
 <div th:insert="~{fragments/banner :: #nav-banner}"></div>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<!--<a th:href="@{/account/logout}">Выйти из личного кабинета </a>-->
+<p></p>
+<div sec:authorize="isAuthenticated()">
+    Вы авторизованы в приложении как <span sec:authentication="name"></span></div>
+
+
+<div sec:authentication="name" ></div>
+
+<p sec:authentication="principal.authorities"></p>
+
+<p sec:authorize="hasRole('USER')"></p>
+<p sec:authorize="hasRole('ADMIN')"></p>
+<p sec:authorize="isAuthenticated()"></p>
+
+<button name="Добавить в корзину" type="button"> <!--style="display: none; float: right"-->
+    Добавить выбранные товары в корзину
+</button>
+<script th:src="@{/js/make-order.js}"></script>
 </body>
 </html>

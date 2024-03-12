@@ -117,7 +117,8 @@ public class ProductsService {
         if (bucket == null){
             Bucket newBucket = bucketService.createBucket(user, Collections.singletonList(productArticle));
             user.setBucket(newBucket);
-            accountService.saveUser(user);
+//            accountService.saveUser(user);
+            accountService.update(user);
         } else {
             bucketService.addProducts(bucket, Collections.singletonList(productArticle));
         }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Мебель-клик</title>
+</head>
+<body>
+<div th:insert="~{fragments/banner :: #nav-banner}"></div>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<div th:if="${bucket!= null and !bucket.getBucketDetails().isEmpty()}">
+
+    <h2>Ваша корзина:</h2>
+    <table border="1" algin="center">
+        <tr>
+            <td>Артикул</td>
+             <td>Наименование</td>
+            <td>Вариант исполнения</td>
+            <td>Тип</td>
+            <td>Количество, шт</td>
+            <td>Цена, руб/шт</td>
+            <td>Сумма, руб</td>
+            <td>Действие</td>
+        </tr>
+
+        <tr th:each="detail : ${bucket.getBucketDetails()}">
+            <td th:text="${detail.article}"></td>
+            <td th:text="${detail.title}"></td>
+            <td th:text="${detail.versionProduct}"></td>
+            <td th:text="${detail.type}"></td>
+            <td th:text="${detail.amount}"></td>
+            <td th:text="${detail.price}"></td>
+            <td th:text="${detail.sum}"></td>
+            <td>
+                <a th:href="@{/products/bucket/{article}(article=${detail.article})}">Удалить из корзины</a>
+            </td>
+    </table>
+<h3>Сумма товаров в Вашей корзине: <b th:text="${bucket.sum}"></b> </h3>
+</div>
+
+<div th:if="${bucket == null or bucket.bucketDetails.isEmpty()}">
+    <h2>Ваша корзина пуста, добавьте товар на странице ассортимента.</h2>
+</div>
+
+
+</body>
+</html>
