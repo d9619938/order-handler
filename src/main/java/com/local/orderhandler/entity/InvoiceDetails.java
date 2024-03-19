@@ -24,15 +24,17 @@ public class InvoiceDetails {
     @Max(1000)
     @Column(nullable = false)
     private int amount;
+
     @PositiveOrZero
     @DecimalMax(value = "10000000.0")
     @Column(nullable = false)
     private double price;
 
-    public InvoiceDetails(Invoice invoice, Product product, int amount) {
+    public InvoiceDetails(Invoice invoice, Product product, int amount, double price) {
         this.invoice = invoice;
         this.product = product;
         this.amount = amount;
+        this.price = price;
     }
 
     public InvoiceDetails() {

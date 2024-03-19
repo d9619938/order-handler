@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Мебель-клик</title>
+</head>
+<body>
+<div th:insert="~{fragments/banner :: #nav-banner}"></div>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<div th:if="${invoices != null and !invoices.isEmpty()}">
+
+
+    <table border="1" align="center">
+        <h2>Ваши заказы:</h2>
+            <tr>
+                <td>Номер заказа</td>
+                <td>Дата создания</td>
+                <td>Сумма</td>
+                <td>Действие</td>
+            </tr>
+
+            <tr th:each="invoice : ${invoices}">
+                <td th:text="${invoice.id}"></td>
+                <td th:text="${invoice.createdAt}"></td>
+                <td th:text="${invoice.sum}"></td>
+                <td>
+                    <a th:href="@{/invoices/get/{id}(id=${invoice.id})}">Содержание заказа</a>
+                    <p th:if="${param.invoice_problem}" style="color: brown">
+                        Заказ не найден БД, обратитесь к администратору ресурса.</p>
+                </td>
+        </table>
+</div>
+
+<div th:if="${invoices == null or invoices.isEmpty()}">
+    <h2>У вас нет оформленных заказов </h2>
+</div>
+<!--<script th:src="@{/js/add-to-order.js}"></script>-->
+
+</body>
+</html>

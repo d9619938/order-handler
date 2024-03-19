@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 @Validated
@@ -43,18 +42,19 @@ public class ProductsController {
         try {
             productService.saveProduct(product, image);
         } catch (HandlerException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+//            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+            return "redirect:/products/add?product_exists";
         }
-        return "redirect:/getAllHtml";
+        return "redirect:/products/getAllHtml";
  }
- @GetMapping("/getHtml")  // РАБОТАЕТ
- public String getProductHTML(@RequestParam() String article, Model model) {
+ @GetMapping("/getHtml/{art}")  // РАБОТАЕТ
+ public String getProductHTML(@PathVariable String art, Model model) {
         try{
-            Product product = productService.getProductById(article);
+            Product product = productService.getProductById(art);
             model.addAttribute("productInfo", product);
             return "product";
         } catch (HandlerException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            return "redirect:/products";
         }
  }
  @ResponseBody
@@ -136,6 +136,18 @@ public class ProductsController {
          return "redirect:/products/getAllHtml";
      } catch (HandlerException e) {
          throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+     }
+ }
+ @GetMapping("/bucket/del/{article}")
+ public String removeFromBucket(@PathVariable String article, Principal principal) {
+        if (principal == null) {
+            return "redirect:/bucket";
+        }
+        try {
+            productService.removeFromUserBucket(article, principal.getName());
+            return "redirect:/bucket";
+        } catch (HandlerException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
      }
  }
 

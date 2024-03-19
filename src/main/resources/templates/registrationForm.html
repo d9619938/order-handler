@@ -6,11 +6,15 @@
 </head>
 <body>
 <div th:insert="~{fragments/banner :: #nav-banner}"></div>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
 <form action="#" th:action="@{/account/registration}" th:object="${user}" method="post">
 
     <h2>Вы находитесь на странице регистрации.</h2>
     <h3>Для регистрации необходимо заполнить поля ниже, затем нажмите кнопку "регистрация".</h3>
+
+    <p th:if="${param.user_exists}" style="color: brown">Пользователь с таким именем уже зарегистрирован.
+        Попробуйте еще раз с новыми данными.</p>
 
     <div>
         <label for="name">Имя пользователя</label>
@@ -27,6 +31,8 @@
         <input type="text" th:field="*{email}" id="email" placeholder="Введите email">
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
     </div>
+
+
 
     <input type="submit" value="Регистрация">
 </form>

@@ -4,7 +4,6 @@ import com.local.orderhandler.entity.Bucket;
 import com.local.orderhandler.entity.Product;
 import com.local.orderhandler.entity.User;
 import com.local.orderhandler.exception.HandlerException;
-import com.local.orderhandler.repository.BucketRepository;
 import com.local.orderhandler.repository.ProductsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -124,5 +120,12 @@ public class ProductsService {
         }
     }
 
-
+    @Transactional
+    public void removeFromUserBucket(String productArticle, String username) throws HandlerException {
+        User user = accountService.getUserByUsername(username);
+        Bucket bucket = user.getBucket();
+        if (bucket != null) {
+            bucketService.deleteProduct(bucket, Collections.singletonList(productArticle));
+        }
+    }
 }

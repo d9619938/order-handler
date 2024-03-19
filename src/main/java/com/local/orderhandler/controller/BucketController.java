@@ -1,7 +1,6 @@
 package com.local.orderhandler.controller;
 
 import com.local.orderhandler.dto.BucketDto;
-import com.local.orderhandler.entity.Bucket;
 import com.local.orderhandler.service.BucketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

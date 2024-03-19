@@ -45,13 +45,14 @@
                 <img th:src="@{/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта">
             </td>
             <td>
-                <button th:attr="data-product-id=${productInfo.id}" name="Добавить в заказ" type="button">
-                    Добавить в заказ
-                </button>
-                <button th:attr="data-product-id=${productInfo.id}" style="display: none"
-                        name="Удалить из заказа" type="button">
-                    Удалить из заказа
-                </button>
+                <a th:href="@{/products/bucket/{article}(article=${productInfo.article})}">Добавить в корзину</a>
+<!--                <button th:attr="data-product-id=${productInfo.id}" name="Добавить в заказ" type="button">-->
+<!--                    Добавить в заказ-->
+<!--                </button>-->
+<!--                <button th:attr="data-product-id=${productInfo.id}" style="display: none"-->
+<!--                        name="Удалить из заказа" type="button">-->
+<!--                    Удалить из заказа-->
+<!--                </button>-->
             </td>
         </tr>
     </table>

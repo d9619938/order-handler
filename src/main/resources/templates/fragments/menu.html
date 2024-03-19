@@ -8,11 +8,23 @@
 <div id="nav-menu" align="">
 
     <table border="5">
-        <tr> <h3>Меню :</h3>
+        <tr> <h3>Пользовательское меню:</h3>
             <td><a th:href="@{/account}">Аккаунт</a></td>
-            <td><a th:href="@{/products/getAllHtml}">Ассортимент</a></td>
-            <td><a th:href="@{/bucket}">Корзина</a></td>
-            <td><a th:href="@{/account/logout}">Выйти из ЛК</a></td>
+            <td sec:authorize="isAuthenticated()"><a th:href="@{/products/getAllHtml}">Ассортимент</a></td>
+            <td sec:authorize="isAuthenticated()"><a th:href="@{/bucket}">Корзина</a></td>
+            <td sec:authorize="isAuthenticated()"><a th:href="@{/invoices}">Мои заказы</a></td>
+            <td sec:authorize="isAuthenticated()"><a th:href="@{/account/logout}">Выйти из ЛК</a></td>
+        </tr>
+    </table>
+
+    <table border="5" sec:authorize="hasRole('MANAGER')">
+        <tr> <h3>Меню менеджера:</h3>
+            <td><a th:href="@{/products/add}">Добавить товар</a></td>
+        </tr>
+    </table>
+    <table border="5" sec:authorize="hasRole('ADMIN')">
+        <tr> <h3>Меню администратора:</h3>
+            <td><a th:href="@{/products/add}">Добавить товар</a></td>
         </tr>
     </table>
 

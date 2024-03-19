@@ -28,8 +28,10 @@ public class AccountService {
     }
 
     public void saveUser(User user) throws HandlerException {
-        if(accountRepository.existsById(user.getId())) {
-            throw new HandlerException("Пользователь с id " + user.getId() + " уже существует");
+//        if(accountRepository.getUserByUsername(user.getUsername()).orElse(null) == null)
+//        if(accountRepository.existsById(user.getId())) {
+        if(accountRepository.existsByUsername(user.getUsername())) {
+            throw new HandlerException("Пользователь с именем " + user.getUsername() + " уже существует");
         }
         user.setRole(roleRepository.findByRoleType(Role.RoleType.ROLE_ADMIN).orElseThrow(()-> new HandlerException("ошибка в роли")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));

@@ -41,7 +41,8 @@ public class AccountController {
         try {
             accountService.saveUser(user);
         } catch (HandlerException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+//            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+            return "redirect:/account/registration?user_exists";
         }
         return "redirect:/account/login";
     }

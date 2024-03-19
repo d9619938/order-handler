@@ -44,7 +44,7 @@ public class SpringSecurityConfiguration {
 //               .securityMatcher("/account/**")
                .authenticationProvider(authenticationProvider()) // аутентификация будет производиться нашим AuthenticationProvider
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/account/registration", "account/login")
+                        .requestMatchers("/account/registration", "/account/login", "/images/**"/*, "/static/**"*/)
                         .permitAll()//запросы доступны всем
                         .requestMatchers(HttpMethod.DELETE)
                         .hasRole("ADMIN")//запросы доступны только указанным ролям

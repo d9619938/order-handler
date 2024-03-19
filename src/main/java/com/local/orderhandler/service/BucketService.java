@@ -10,7 +10,6 @@ import com.local.orderhandler.repository.BucketRepository;
 import com.local.orderhandler.repository.ProductsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -56,6 +55,18 @@ public class BucketService {
         bucketRepository.save(bucket);
 
     }
+    @Transactional
+    public void deleteProduct(Bucket bucket, List<String> productsArticles) {
+        List<Product> products = bucket.getProductList();
+        List<Product> newProductList = products;
+        if (newProductList == null) newProductList = new ArrayList<>();
+        else newProductList = new ArrayList<>(products);
+        for (String art : productsArticles){
+            newProductList.remove(productsRepository.getProductsByArticle(art));
+        }
+        bucket.setProductList(newProductList);
+        bucketRepository.save(bucket);
+    }
 
 
     public BucketDto getBucketByUser(String username) {
@@ -80,4 +91,5 @@ public class BucketService {
         bucketDto.aggregate();
         return bucketDto;
     }
+
 }
