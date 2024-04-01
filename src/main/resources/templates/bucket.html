@@ -40,12 +40,19 @@
     </table>
 <h3>Сумма товаров в Вашей корзине: <b th:text="${bucket.sum}"></b> </h3>
     <a th:href="@{/invoices/add}">Добавить содержимое корзины в заказ</a>
+    <div>
+        <a th:href="@{/bucket/delAll}">Очистить корзину</a>
+    </div>
 </div>
 
 <div th:if="${bucket == null or bucket.bucketDetails.isEmpty()}">
     <h2>Ваша корзина пуста, добавьте товар на странице ассортимента.</h2>
 </div>
 
-
+<button name="addOrderToBucket" type="button"> <!--style="display: none; float: right"-->
+    Добавить выбранные товары в корзину
+</button>
+<button onclick="window.history.back()">Назад</button>
+<script th:src="@{/js/make-order.js}"></script>
 </body>
 </html>

@@ -7,27 +7,54 @@
 <body>
 <div id="nav-menu" align="">
 
-    <table border="5">
+    <table border="3" sec:authorize="hasRole('BUYER')">
         <tr> <h3>Пользовательское меню:</h3>
-            <td><a th:href="@{/account}">Аккаунт</a></td>
-            <td sec:authorize="isAuthenticated()"><a th:href="@{/products/getAllHtml}">Ассортимент</a></td>
-            <td sec:authorize="isAuthenticated()"><a th:href="@{/bucket}">Корзина</a></td>
-            <td sec:authorize="isAuthenticated()"><a th:href="@{/invoices}">Мои заказы</a></td>
-            <td sec:authorize="isAuthenticated()"><a th:href="@{/account/logout}">Выйти из ЛК</a></td>
+<!--            <td><a th:href="@{/account}">Аккаунт</a></td>-->
+<!--            <td><a th:href="@{/products/getAllHtml}">Ассортимент</a></td>-->
+<!--            <td><a th:href="@{/bucket}">Корзина</a></td>-->
+<!--            <td><a th:href="@{/invoices}">Мои заказы</a></td>-->
+<!--            <td><a th:href="@{/account/logout}">Выйти из ЛК</a></td>-->
+            <td><button onclick="location='/account'">Аккаунт</button></td>
+            <td><button onclick="location='/products/getAllHtml'">Ассортимент</button></td>
+            <td><button onclick="location='/bucket'">Корзина</button></td>
+            <td><button onclick="location='/invoices'">Мои заказы</button></td>
+            <td><button onclick="location='/account/logout'">Выйти из ЛК</button></td>
         </tr>
     </table>
 
-    <table border="5" sec:authorize="hasRole('MANAGER')">
+    <table border="3" sec:authorize="hasRole('MANAGER')">
         <tr> <h3>Меню менеджера:</h3>
-            <td><a th:href="@{/products/add}">Добавить товар</a></td>
+<!--            <td><a th:href="@{/account}">Аккаунт</a></td>-->
+<!--            <td><a th:href="@{/products/add}">Добавить товар</a></td>-->
+<!--            <td><a th:href="@{/prices}">Прайс-листы</a></td>-->
+<!--            <td><a th:href="@{/invoices/getAll}">Заказы покупателей</a></td>-->
+<!--            <td><a th:href="@{/invoices/stat}">Статистика по заказам</a></td>-->
+<!--            <td><a th:href="@{/account/logout}">Выйти из ЛК</a></td>-->
+            <td><button onclick="location='/account'">Аккаунт</button></td>
+            <td><button onclick="location='/products/add'">Добавить товар</button></td>
+            <td><button onclick="location='/prices'">Прайс-листы</button></td>
+            <td><button onclick="location='/invoices/getAll'">Заказы покупателей</button></td>
+            <td><button onclick="location='/invoices/stat'">Статистика по заказам</button></td>
+            <td><button onclick="location='/account/logout'">Выйти из ЛК</button></td>
         </tr>
     </table>
-    <table border="5" sec:authorize="hasRole('ADMIN')">
+    <table border="3" sec:authorize="hasRole('ADMIN')">
         <tr> <h3>Меню администратора:</h3>
-            <td><a th:href="@{/products/add}">Добавить товар</a></td>
+<!--            <td><a th:href="@{/account}">Аккаунт</a></td>-->
+<!--            <td><a th:href="@{/products/getAllHtml}">Ассортимент</a></td>-->
+<!--            <td><a th:href="@{/products/add}">Добавить товар</a></td>-->
+<!--            <td><a th:href="@{/prices}">Прайс-листы</a></td>-->
+<!--            <td><a th:href="@{/account/getAll}">Пользователи</a></td>-->
+<!--            <td><a th:href="@{/account/logout}">Выйти из ЛК</a></td>-->
+            <td><button onclick="location='/account'">Аккаунт</button></td>
+            <td><button onclick="location='/products/add'">Добавить товар</button></td>
+            <td><button onclick="location='/prices'">Прайс-листы</button></td>
+            <td><button onclick="location='/account/getAll'">Пользователи</button></td>
+            <td><button onclick="location='/account/logout'">Выйти из ЛК</button></td>
         </tr>
     </table>
 
 </div>
+
 </body>
 </html>

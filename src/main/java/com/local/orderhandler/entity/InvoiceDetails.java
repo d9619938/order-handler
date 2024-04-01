@@ -79,4 +79,14 @@ public class InvoiceDetails {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "- арт.=" + product.getArticle() +
+                ", наим.=" + product.getName() +
+                ", вар.=" + product.getVersion() +
+                ", тип=" + product.getType() +
+                ", кол-во=" + amount +
+                "\n";
+    }
 }

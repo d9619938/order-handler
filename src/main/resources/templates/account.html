@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--<html xmlns:th="https://www.thymeleaf.org"-->
-<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">-->
 <head>
     <meta charset="UTF-8">
     <title>Мебель-клик</title>
@@ -10,22 +8,44 @@
 <div th:insert="~{fragments/banner :: #nav-banner}"></div>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<p></p>
-<div sec:authorize="isAuthenticated()">
-    Вы авторизованы в приложении как <span sec:authentication="name"></span></div>
+
+<div>
+
+    <h1 sec:authorize="isAuthenticated()">
+    Приветствуем Вас в нашем приложении,
+    <span sec:authentication="name"></span>!
+    </h1>
 
 
-<div sec:authentication="name" ></div>
+    <h3 sec:authorize="hasRole('BUYER')">
+        Вы авторизованы как ПОЛЬЗОВАТЕЛЬ и можете просматривать список товаров, информацию о товарах, добавлять
+        их в корзину. Так же Вы можете управлять корзиной, создавать заказы и отправлять заказы на почту.
+    </h3>
 
-<p sec:authentication="principal.authorities"></p>
+    <h3 sec:authorize="hasRole('MANAGER')">
+        Вы авторизованы как МЕНЕДЖЕР и можете просматривать список товаров, информацию о товарах,
+        добавлять новые товары, просматривать список размещенных заказов и список прайсов.
+    </h3>
 
-<p sec:authorize="hasRole('USER')"></p>
-<p sec:authorize="hasRole('ADMIN')"></p>
-<p sec:authorize="isAuthenticated()"></p>
+    <h3 sec:authorize="hasRole('ADMIN')">
+        Вы авторизованы как АДМИНИСТРАТОР и можете просматривать список товаров, информацию о товарах,
+        добавлять новые товары, удалять товары. Обновлять список прайсов. Менять роли пользователей ограничивая или расширяя их права.
+    </h3>
 
-<button name="Добавить в корзину" type="button"> <!--style="display: none; float: right"-->
-    Добавить выбранные товары в корзину
-</button>
-<script th:src="@{/js/make-order.js}"></script>
+</div>
+
 </body>
 </html>
+
+
+<!--<p sec:authentication="principal.authorities"></p>-->
+
+<!--<p sec:authorize="hasRole('USER')"></p>-->
+<!--<p sec:authorize="hasRole('ADMIN')"></p>-->
+<!--<p sec:authorize="isAuthenticated()"></p>-->
+
+
+<!--<button name="addOrderToBucket" type="button"> &lt;!&ndash;style="display: none; float: right"&ndash;&gt;-->
+<!--    Добавить выбранные товары в корзину-->
+<!--</button>-->
+<!--<script th:src="@{/js/make-order.js}"></script>-->

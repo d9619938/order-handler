@@ -13,6 +13,14 @@ public class Role {
     @Enumerated(value = EnumType.STRING)
     private RoleType roleType;
 
+    public Role() {
+    }
+
+    public Role(int id, RoleType roleType) {
+        this.id = id;
+        this.roleType = roleType;
+    }
+
     public enum RoleType{
         ROLE_BUYER, ROLE_MANAGER, ROLE_ADMIN// префикс ROLE обязателен
     }

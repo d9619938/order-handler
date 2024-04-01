@@ -68,6 +68,12 @@ public class BucketService {
         bucketRepository.save(bucket);
     }
 
+    @Transactional
+    public void deleteAllProduct(Bucket bucket){
+        bucket.setProductList(new ArrayList<>());
+        bucketRepository.save(bucket);
+    }
+
 
     public BucketDto getBucketByUser(String username) {
         User user = accountRepository.getUserByUsername(username).orElse(null);
@@ -91,5 +97,6 @@ public class BucketService {
         bucketDto.aggregate();
         return bucketDto;
     }
+
 
 }

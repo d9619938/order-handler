@@ -8,9 +8,12 @@
 <div th:insert="~{fragments/banner :: #nav-banner}"></div>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
+<p th:if="${param.prod_exists}" style="color: brown">Ошибка при удалении товара, товар не существует.</p>
+
 <div th:if="${products != null and !products.isEmpty()}">
-
-
+    <!--    <button name="addOrderToBucket" type="button"> &lt;!&ndash;style="display: none; float: right"&ndash;&gt;-->
+<!--        Добавить выбранные товары в корзину-->
+<!--    </button>-->
     <table border="1" align="center">
         <h2>Актуальный ассортимент товаров:</h2>
         <tr>
@@ -24,7 +27,9 @@
             <td>Вес, кг</td>
             <td>Цена, руб</td>
             <td>Изображение</td>
-            <td>Действие</td>
+            <td sec:authorize="hasRole('BUYER')">Работа с корзиной</td>
+            <td sec:authorize="hasRole('ADMIN')">Удаление товара</td>
+            <td>Подробнее</td>
         </tr>
         <tr th:each="product : ${products}">
             <td th:text="${product.article}"></td>
@@ -39,27 +44,30 @@
             <td>
                 <img th:src="@{/images/{path}(path=${product.imagePatch})}" alt="Изображение продукта" width="200" height="170">
             </td>
-            <td><a th:href="@{/products/bucket/{article}(article=${product.article})}">Добавить в корзину</a>
-
-<!--                <button  th:attr="data-product-article=${product.article}" name="Добавить в заказ" type="button">-->
-<!--                    Добавить в заказ-->
-<!--                </button>-->
-<!--                <button th:attr="data-product-article=${product.article}" style="display: none"-->
-<!--                        name="Удалить из заказа" type="button">-->
-<!--                    Удалить из заказа-->
-<!--                </button>-->
+            <td sec:authorize="hasRole('BUYER')">
+                <button  th:attr="data-product-article=${product.article}" name="Добавить в заказ" type="button">
+                    Добавить в корзину
+                </button>
+                <button th:attr="data-product-article=${product.article}" style="display: none"
+                        name="Удалить из заказа" type="button">
+                    Удалить из козины
+                </button>
+            </td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/products/del/{article}(article=${product.article})}">Удалить товар</a>
+            </td>
+            <td>
+                <a th:href="@{/products/getHtml/{art}(art=${product.article})}">Подробнее о товаре</a>
             </td>
         </tr>
     </table>
-
-
 </div>
 
 <div th:if="${products == null or products.isEmpty()}">
         <h2>Страница в разработке, товары пока не добавлены продавцом</h2>
 </div>
-<!--<script th:src="@{/js/add-to-order.js}"></script>-->
-
+<button onclick="window.history.back()">Назад</button>
+<script th:src="@{/js/add-to-order.js}"></script>
 </body>
 </html>
 

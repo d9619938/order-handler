@@ -1,5 +1,6 @@
 package com.local.orderhandler.controller;
 
+import com.local.orderhandler.dto.UserDto;
 import com.local.orderhandler.entity.Role;
 import com.local.orderhandler.entity.User;
 import com.local.orderhandler.exception.HandlerException;
@@ -12,11 +13,13 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -52,11 +55,11 @@ public class AccountController {
         return "login";
     }
 
-    private void setupDefaultRole(User user){
-        Role def = new Role();
-        def.setRoleType(Role.RoleType.ROLE_BUYER);
-        user.setRole(def);
-    }
+//    private void setupDefaultRole(User user){
+//        Role def = new Role();
+//        def.setRoleType(Role.RoleType.ROLE_BUYER);
+//        user.setRole(def);
+//    }
 
 
     @ResponseBody
@@ -71,7 +74,7 @@ public class AccountController {
     }
 
     @ResponseBody
-    @GetMapping("/getAll")
+    @GetMapping("/getAllJSON")
     public List<User> getAllUsersJSON(){ // РАБОТАЕТ
         try {
             return accountService.getAllUsers();
@@ -79,6 +82,7 @@ public class AccountController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
     @ResponseBody
     @GetMapping("/get")
     public User getUserById(@RequestParam int id) { // РАБОТАЕТ
@@ -89,14 +93,24 @@ public class AccountController {
         }
     }
 
-    @DeleteMapping("/del") // РАБОТАЕТ
-    public ResponseEntity<Void> deleteUser(@RequestParam int id){
-        try{
+//    @DeleteMapping("/del") // РАБОТАЕТ
+//    public ResponseEntity<Void> deleteUser(@RequestParam int id){
+//        try{
+//            accountService.deleteUser(id);
+//            return ResponseEntity.ok().build();
+//        } catch (HandlerException e){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//        }
+//    }
+
+    @GetMapping ("/del/{id}")
+        public String removeUser (@PathVariable int id) {
+        try {
             accountService.deleteUser(id);
-            return ResponseEntity.ok().build();
-        } catch (HandlerException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (HandlerException e) {
+            return "redirect:/account/getAll?user_exists";
         }
+        return "redirect:/account/getAll";
     }
 
     @GetMapping
@@ -120,6 +134,42 @@ public class AccountController {
     @GetMapping("/home")
     public String home(){
         return "home";
+    }
+    @GetMapping("/getAll")
+    public String getAllUsers(Model model) {
+        List<User>userList = new ArrayList<>();
+        try {
+            userList = accountService.getAllUsers();
+        } catch (HandlerException e) {
+            return "users";
+        }
+        List<UserDto> userDtoList = new ArrayList<>();
+        for (User user : userList){
+            UserDto userDto = new UserDto();
+            userDto.setId(user.getId());
+            userDto.setUsername(user.getUsername());
+            userDto.setRole(user.getRole());
+            userDto.setEmail(user.getEmail());
+            userDtoList.add(userDto);
+        }
+        model.addAttribute("usersDto", userDtoList);
+        return "users";
+    }
+
+    @GetMapping("/change_role/{id}")
+    public String changeRole (@PathVariable int id){
+        try {
+            User user = accountService.getUserById(id);
+            try {
+                accountService.change(user);
+            } catch (HandlerException e) {
+                return "redirect:/account/getAll?user_exists";
+            }
+        } catch (HandlerException e) {
+            return "redirect:/account/getAll?user_exists";
+        }
+
+        return "redirect:/account/getAll";
     }
 
 //    @GetMapping("/profile")

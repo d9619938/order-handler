@@ -26,6 +26,14 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
     }
+    public void saveAdminDefault(User user) throws HandlerException {
+        if(accountRepository.existsByUsername(user.getUsername())) {
+            throw new HandlerException("Пользователь с именем " + user.getUsername() + " уже существует");
+        }
+//        user.setRole(roleRepository.findByRoleType(Role.RoleType.ROLE_ADMIN).orElseThrow(()-> new HandlerException("ошибка в роли")));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        accountRepository.save(user);
+    }
 
     public void saveUser(User user) throws HandlerException {
 //        if(accountRepository.getUserByUsername(user.getUsername()).orElse(null) == null)
@@ -33,14 +41,22 @@ public class AccountService {
         if(accountRepository.existsByUsername(user.getUsername())) {
             throw new HandlerException("Пользователь с именем " + user.getUsername() + " уже существует");
         }
-        user.setRole(roleRepository.findByRoleType(Role.RoleType.ROLE_ADMIN).orElseThrow(()-> new HandlerException("ошибка в роли")));
+        user.setRole(roleRepository.findByRoleType(Role.RoleType.ROLE_BUYER).orElseThrow(()-> new HandlerException("ошибка в роли")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         accountRepository.save(user);
     }
 
     public void update(User user) throws HandlerException{
-        if(!accountRepository.existsById(user.getId())){
-            throw new HandlerException("Пользователь с id " + user.getId() + " не найден");
+        if (accountRepository.existsByUsername(user.getUsername())) {
+            accountRepository.save(user);
+        }
+    }
+
+    public void change(User user) throws HandlerException{
+        if((user.getRole().getRoleType()).equals(Role.RoleType.ROLE_MANAGER)){
+            user.setRole(roleRepository.findByRoleType(Role.RoleType.ROLE_BUYER).orElseThrow(()-> new HandlerException("ошибка в роли")));
+        } else if ((user.getRole().getRoleType()).equals(Role.RoleType.ROLE_BUYER)){
+            user.setRole(roleRepository.findByRoleType(Role.RoleType.ROLE_MANAGER).orElseThrow(()-> new HandlerException("ошибка в роли")));
         }
         accountRepository.save(user);
     }

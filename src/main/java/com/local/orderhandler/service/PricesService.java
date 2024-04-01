@@ -1,17 +1,12 @@
 package com.local.orderhandler.service;
 
 import com.local.orderhandler.entity.Price;
-import com.local.orderhandler.entity.Product;
 import com.local.orderhandler.exception.HandlerException;
 import com.local.orderhandler.repository.PricesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PricesService {
@@ -35,9 +30,17 @@ public class PricesService {
         return pricesRepository.findById(id).get();
     }
 
-    public List<Price> getAllPrices() throws HandlerException {
-        List<Price> priceList = (List<Price>) pricesRepository.findAll();
-        if(priceList.isEmpty()) throw new HandlerException("Прайсы не загружены в систему");
-        return priceList;
+    public List<Price> getAllPrices(){
+        //        if(priceList.isEmpty()) throw new HandlerException("Прайсы не загружены в систему");
+        return (List<Price>) pricesRepository.findAll();
+    }
+
+    public void removePrice(int id) throws HandlerException {
+        if(pricesRepository.existsById(id)){
+            pricesRepository.delete(pricesRepository.findById(id).get());
+        } else {
+            throw new HandlerException("Не удалось удалить прайс с id" + id);
+        }
+
     }
 }

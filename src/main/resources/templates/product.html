@@ -25,8 +25,7 @@
             <td>Вес, кг</td>
             <td>Цена, руб</td>
             <td>Изображение</td>
-            <td>Действия</td>
-
+            <td sec:authorize="hasRole('BUYER')">Работа с корзиной</td>
         </tr>
         <tr>
             <td th:text="${productInfo.article}"></td>
@@ -39,22 +38,23 @@
             <td th:text="${productInfo.weight}"></td>
             <td th:text="${productInfo.cost}"></td>
             <td>
-                <!--        пробрасываем путь к картинке через <img th:src="@{-->
-                <!--        вместо параметра {path} будет подставляться свойство pictureInfo.imagePath -->
-                <!--     файл должен лежать именно в static/images - иначе teamleaf не найдет его           -->
-                <img th:src="@{/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта">
+                <img th:src="@{/images/{path}(path=${productInfo.imagePatch})}" alt="Изображение продукта" width="200" height="170">
             </td>
-            <td>
-                <a th:href="@{/products/bucket/{article}(article=${productInfo.article})}">Добавить в корзину</a>
-<!--                <button th:attr="data-product-id=${productInfo.id}" name="Добавить в заказ" type="button">-->
-<!--                    Добавить в заказ-->
-<!--                </button>-->
-<!--                <button th:attr="data-product-id=${productInfo.id}" style="display: none"-->
-<!--                        name="Удалить из заказа" type="button">-->
-<!--                    Удалить из заказа-->
-<!--                </button>-->
+            <td sec:authorize="hasRole('BUYER')">
+                <button  th:attr="data-product-article=${productInfo.article}" name="Добавить в заказ" type="button">
+                    Добавить в корзину
+                </button>
+                <button th:attr="data-product-article=${productInfo.article}" style="display: none"
+                        name="Удалить из заказа" type="button">
+                    Удалить из корзины
+                </button>
             </td>
         </tr>
     </table>
+    <div>
+    </div>
+    <script th:src="@{/js/add-to-order.js}"></script>
 </body>
+<button onclick="window.history.back()">Назад</button>
+
 </html>

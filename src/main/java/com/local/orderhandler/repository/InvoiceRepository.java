@@ -8,5 +8,7 @@ import java.util.Optional;
 
 public interface InvoiceRepository extends CrudRepository<Invoice, Integer> {
     Optional<List<Invoice>> findAllInvoiceByUser_Id(int UserId);
+    Optional<List<Invoice>> findInvoiceByUserId(int UserId);
     Optional<Invoice> findInvoiceById(int InvoiceId);
+
 }

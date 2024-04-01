@@ -86,17 +86,28 @@ public class ProductsController {
 
  }
 
- @Secured("ROLE_ADMIN")
- @ResponseBody
- @DeleteMapping("/del") // РАБОТАЕТ
- public ResponseEntity<Void> deleteProduct(@RequestParam("article") String article){
+// @Secured("ROLE_ADMIN")
+// @ResponseBody
+// @DeleteMapping("/del") // РАБОТАЕТ
+// public ResponseEntity<Void> deleteProduct(@RequestParam("article") String article){
+//        try {
+//            productService.deleteProduct(article);
+//            return  ResponseEntity.ok().build();
+//        } catch (HandlerException e) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//        }
+// }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/del/{article}")
+    public String deleteProduct(@PathVariable @Valid String article){
         try {
             productService.deleteProduct(article);
-            return  ResponseEntity.ok().build();
         } catch (HandlerException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            return "redirect:/products/getAllHtml?prod_exists";
         }
- }
+        return "redirect:/products/getAllHtml";
+    }
 
  @Secured({"ROLE_MANAGER", "ROLE_ADMIN"})
  @ResponseBody
@@ -125,15 +136,18 @@ public class ProductsController {
            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
        }
  }
-
+@ResponseBody
  @GetMapping("/bucket/{article}")
-    public String addBucket (@PathVariable String article, Principal principal){
+//    public String addBucket (@PathVariable String article, Principal principal){
+    public String addBucket (@PathVariable List<String> article, Principal principal){
         if (principal == null) {
             return "redirect:/products/getAllHtml";
             }
      try {
          productService.addToUserBucket(article, principal.getName());
-         return "redirect:/products/getAllHtml";
+//         return "redirect:/products/getAllHtml";
+//         return article;
+         return article.toString();
      } catch (HandlerException e) {
          throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
      }

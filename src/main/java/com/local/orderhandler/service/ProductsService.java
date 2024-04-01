@@ -107,16 +107,19 @@ public class ProductsService {
        return strings[strings.length-1];
     }
     @Transactional
-    public void addToUserBucket(String productArticle, String username) throws HandlerException {
+//    public void addToUserBucket(String productArticle, String username) throws HandlerException {
+    public void addToUserBucket(List<String> productArticle, String username) throws HandlerException {
         User user = accountService.getUserByUsername(username);
         Bucket bucket = user.getBucket();
         if (bucket == null){
-            Bucket newBucket = bucketService.createBucket(user, Collections.singletonList(productArticle));
+//            Bucket newBucket = bucketService.createBucket(user, Collections.singletonList(productArticle));
+            Bucket newBucket = bucketService.createBucket(user, productArticle);
             user.setBucket(newBucket);
 //            accountService.saveUser(user);
             accountService.update(user);
         } else {
-            bucketService.addProducts(bucket, Collections.singletonList(productArticle));
+//            bucketService.addProducts(bucket, Collections.singletonList(productArticle));
+            bucketService.addProducts(bucket, productArticle);
         }
     }
 
