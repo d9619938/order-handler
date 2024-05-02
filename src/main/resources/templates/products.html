@@ -62,11 +62,20 @@
         </tr>
     </table>
 </div>
+<button name="addOrderToBucket" type="button"> <!--style="display: none; float: right"-->
+    Добавить выбранные товары в корзину
+</button>
+<a name="addOrderToBucket" type="button"> <!--style="display: none; float: right"-->
+    Добавить выбранные товары в корзину
+    <button onclick="location='/bucket'">Корзина</button>
+
 
 <div th:if="${products == null or products.isEmpty()}">
         <h2>Страница в разработке, товары пока не добавлены продавцом</h2>
 </div>
 <button onclick="window.history.back()">Назад</button>
+
+<!--<script th:src="@{/js/make-order.js}"></script>-->
 <script th:src="@{/js/add-to-order.js}"></script>
 </body>
 </html>

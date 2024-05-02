@@ -7,7 +7,7 @@ INSERT INTO tb_products (article, name, type, version, width, length, height, we
  ('123405', 'Комфорт', 'SOFA', 'RED', 2.0, 0.9, 1.1, 90, 16990.50, '');
 
 -- INSERt INTO tb_roles(id, role_type) VALUES (1, 'ROLE_ADMIN');
-UPDATE tb_users SET role_id= 1 WHERE id = 1;
+-- UPDATE tb_users SET role_id= 1 WHERE id = 1;
 
 INSERt INTO tb_roles(id, role_type) VALUES (2, 'ROLE_MANAGER');
 INSERt INTO tb_roles(id, role_type) VALUES (3, 'ROLE_BUYER');

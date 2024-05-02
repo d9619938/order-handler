@@ -29,15 +29,19 @@ public class AdminConfiguration {
         admin.setUsername("admin");
         admin.setPassword("admin");
         admin.setEmail("mebel-klick@yandex.ru");
+        admin.setRole(roleRepository.findByRoleType(Role.RoleType.ROLE_ADMIN).orElseGet(()-> {
+        Role roleAdmin = new Role(1, Role.RoleType.ROLE_ADMIN);
+        return roleRepository.save(roleAdmin);
+        }));
         accountService.saveAdminDefault(admin);
         return admin;
     }
 
-    @Bean
-    public Role role () {
-        Role roleAdmin = new Role(1, Role.RoleType.ROLE_ADMIN);
-        roleRepository.save(roleAdmin);
-        return roleAdmin;
-    }
+//    @Bean
+//    public Role role () {
+//        Role roleAdmin = new Role(1, Role.RoleType.ROLE_ADMIN);
+//        roleRepository.save(roleAdmin);
+//        return roleAdmin;
+//    }
 
 }
